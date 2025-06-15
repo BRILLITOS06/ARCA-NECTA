@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro - Arca App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f8f8f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .registro-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #d7263d;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #d7263d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #b91b2d;
+    }
+
+    .error, .success {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="registro-container">
+    <h2>Registro</h2>
+    <form id="registro-form">
+      <input type="email" id="nuevoEmail" placeholder="Correo" required />
+      <input type="password" id="nuevoPassword" placeholder="Contraseña" required />
+      <button type="submit">Registrar</button>
+    </form>
+    <div id="msg" class=""></div>
+    <a href="login.html" class="login-link">¿Ya tienes cuenta? Inicia sesión</a>
+  </div>
+
+  <script>
+    const form = document.getElementById("registro-form");
+    const msg = document.getElementById("msg");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("nuevoEmail").value;
+      const password = document.getElementById("nuevoPassword").value;
+
+      let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+      if (usuarios.find(u => u.email === email)) {
+        msg.textContent = "Este correo ya está registrado.";
+        msg.className = "error";
+      } else {
+        usuarios.push({ email, password });
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        msg.textContent = "Registro exitoso. Puedes iniciar sesión.";
+        msg.className = "success";
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
